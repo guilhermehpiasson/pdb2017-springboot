@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: exemplospringboot
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: guilherme.piasson
+Implementation-Vendor-Id: br.com.compasso.exemplospringboot
+Build-Jdk: 1.8.0_144
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
