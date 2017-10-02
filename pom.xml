@@ -3,12 +3,12 @@
   <groupId>br.com.compasso.exemplospringboot</groupId>
   <artifactId>exemplospringboot</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <description>Exemplo utilizando Spring Boot</description>
+  <description>Projeto para a prática do programa de bolsas relacionado ao Spring Boot</description>
   
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.3.6.RELEASE</version>
+    <version>1.5.7.RELEASE</version>
   </parent>
   
   <dependencies>
@@ -17,27 +17,34 @@
         <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
     
+    <!-- Starter definido com o objetivo de configurar as dependencias com Hibernate e JPA -->
     <dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-data-jpa</artifactId>
 	</dependency>
 
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-devtools</artifactId>
-	</dependency>
-	
+	<!-- Starter definido com o objetivo de configurar o conector com o MySQL -->
 	<dependency>
 		<groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <scope>runtime</scope>
 	</dependency>
 	
+	<!-- Starter definido com o objetivo de prover o mecanismo de hot deploy -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-devtools</artifactId>
+	</dependency>
+	
+	
+	<!-- Starter definido com o objetivo disponibilizar endPoints para consulta de informações em tempo de execução -->
 	<dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
-
+	
+	<!-- Starter definido com o objetivo de utilizar o Thymeleaf como mecanismo para os templates e também para que as páginas possam capturar e manipular 
+	os objetos enviados para as mesmas. Tornando as mesmas assim, dinâmicas -->
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -60,6 +67,7 @@
           </plugin>
       </plugins>
   </build>
+  <!-- Propriedades para a definição de utilização da versão 1.8 da JDK -->
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
