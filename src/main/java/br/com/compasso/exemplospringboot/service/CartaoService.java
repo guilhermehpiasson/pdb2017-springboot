@@ -1,13 +1,19 @@
 package br.com.compasso.exemplospringboot.service;
 
+import javax.xml.namespace.QName;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.compasso.exemplospringboot.model.Cartao;
 import br.com.compasso.exemplospringboot.repository.CartaoRepository;
+import br.com.compasso.exemplospringboot.soap.cartaows.CartaoDeCredito;
+import br.com.compasso.exemplospringboot.soap.cartaows.CartaoWS;
+import br.com.compasso.exemplospringboot.soap.cartaows.CartaoWSService;
+import br.com.compasso.exemplospringboot.soap.cartaows.RetornoCartaoDeCredito;
 
 /**
- * Classe com o objetivo de prover métodos de operação aos Cartoes, como uma espeécie de serviço.
+ * Classe com o objetivo de prover mï¿½todos de operaï¿½ï¿½o aos Cartoes, como uma espeï¿½cie de serviï¿½o.
  * @author guilherme.piasson
  */
 @Service
@@ -17,8 +23,8 @@ public class CartaoService {
 	private CartaoRepository repository;
 	
 	/**
-	 * Utiliza o método findAll() da interface CrudRepository
-	 * @return Iterador com os cartões existentes na entidade de cartões
+	 * Utiliza o mï¿½todo findAll() da interface CrudRepository
+	 * @return Iterador com os cartï¿½es existentes na entidade de cartï¿½es
 	 */
 	public Iterable<Cartao> obterTodos(){
 		
@@ -28,10 +34,34 @@ public class CartaoService {
 	}
 	
 	/**
-	 * Utiliza o método save() da interface CrudRepository
+	 * Utiliza o mï¿½todo save() da interface CrudRepository
 	 */
 	public void salvar(Cartao cartao) {
-		repository.save(cartao);	
+		if(validaCartao(cartao)) {
+			repository.save(cartao);
+		}
+	}
+	
+	/**
+	 * MÃ©todo utilizado para a chamada de um WebService para validaÃ§Ã£o de CartÃµes
+	 * @param cartao - Objeto passado pelo formulÃ¡rio
+	 * @return Se o cartÃ£o informado Ã© valido ou nÃ£o
+	 */
+	public boolean validaCartao(Cartao cartao) {
+		CartaoWSService cartaoService = new CartaoWSService();
+		CartaoWS cartaoWS = cartaoService.getPort(new QName("http://ws.programabolsas.compasso.com.br", "CartaoWS"), CartaoWS.class);
+		
+		CartaoDeCredito cartaoDeCredito = new CartaoDeCredito();
+		
+		cartaoDeCredito.setNroCartao(cartao.getNroCartao());
+		cartaoDeCredito.setDtValidade(cartao.getDtValidade());
+		cartaoDeCredito.setBandeira(cartao.getBandeira());
+		cartaoDeCredito.setCodigoVerificador(cartao.getCodigoVerificador());
+		cartaoDeCredito.setNomeTitular(cartao.getNomeTitular());
+		
+		RetornoCartaoDeCredito retorno = cartaoWS.validaCartao(cartaoDeCredito);
+		
+		return retorno.isValido();
 	}
 	
 
